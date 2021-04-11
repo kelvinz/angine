@@ -33,6 +33,7 @@ export const ngInit = ( obj, fn, fps = 60 ) => {
 }
 
 export const ngStop = () => {
+	stop = true
 	ngFns.length = 0
 	if ( request ) cancelAnimationFrame( request )
 }
