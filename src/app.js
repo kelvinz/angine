@@ -1,14 +1,21 @@
 import './app.css'
-import { ng, ngAdd, ngStart, ngPause, ngPlay, ngStop } from './angine'
+import { ngInit, ngPause, ngPlay, ngStop } from './angine'
 
-ng.counter = 0
+const initNg = () => {
+	ngInit( {
+		timer: 0,
+		counter: 0,
+	}, ( state ) => {
+		state.counter++
+		if ( state.counter >= 60 ) {
+			state.timer++
+			state.counter = 0
+			console.log( state.timer )
+		}
+	} )
+}
 
-ngAdd( () => {
-	ng.counter++
-	console.log( ng.counter )
-} )
-
-document.querySelector( '#start' ).addEventListener( 'click', () => ngStart() )
+document.querySelector( '#start' ).addEventListener( 'click', () => initNg() )
 document.querySelector( '#pause' ).addEventListener( 'click', () => ngPause() )
 document.querySelector( '#play' ).addEventListener( 'click', () => ngPlay() )
 document.querySelector( '#stop' ).addEventListener( 'click', () => ngStop() )

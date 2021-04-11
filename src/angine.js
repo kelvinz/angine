@@ -1,15 +1,13 @@
-let interval, now, then, elapsed
+let request, interval, now, then, elapsed
 let stop, pause
 
-export const ng = {}
-
+const ng = {}
 const ngFns = []
-export const ngAdd = ( fn ) => ngFns.push( fn )
 
-const animate = () => ngFns.forEach( fn => fn() )
+const animate = () => ngFns.forEach( fn => fn( ng ) )
 
 const loop = () => {
-	if ( !stop ) requestAnimationFrame( loop )
+	if ( !stop ) request = requestAnimationFrame( loop )
 	now = Date.now()
 	elapsed = now - then
 
@@ -25,13 +23,19 @@ const play = fps => {
 	loop()
 }
 
-export const ngStart = ( fps = 60 ) => {
+export const ngInit = ( obj, fn, fps = 60 ) => {
+	ngStop()
+	Object.assign( ng, obj )
+	ngFns[ 0 ] = fn
 	stop = false
 	pause = false
 	play( fps )
 }
 
-export const ngStop = () => stop = true
+export const ngStop = () => {
+	ngFns.length = 0
+	if ( request ) cancelAnimationFrame( request )
+}
 
 export const ngPause = () => pause = true
 export const ngPlay = () => pause = false
