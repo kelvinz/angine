@@ -1,6 +1,14 @@
 import './app.css'
+import { ng, ngAdd, ngStart, ngPause, ngPlay, ngStop } from './angine'
 
-document.querySelector('#app').innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+ng.counter = 0
+
+ngAdd( () => {
+	ng.counter++
+	console.log( ng.counter )
+} )
+
+document.querySelector( '#start' ).addEventListener( 'click', () => ngStart() )
+document.querySelector( '#pause' ).addEventListener( 'click', () => ngPause() )
+document.querySelector( '#play' ).addEventListener( 'click', () => ngPlay() )
+document.querySelector( '#stop' ).addEventListener( 'click', () => ngStop() )
